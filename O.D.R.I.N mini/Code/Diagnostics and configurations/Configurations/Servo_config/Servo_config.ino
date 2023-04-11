@@ -2,6 +2,7 @@
 /* Servo config
   Project: O.D.R.I.N mini
   Start date: 3 April 2023
+  Last edited: 11 April 2023
   Info:
 
   Seetting all servos to 90 degrees before assembly.
@@ -67,8 +68,8 @@
 //Min and Max pulse values
 
 #define MIN_PULSE_WIDTH 500
-#define MAX_PULSE_WIDTH 2500
-#define DEFAULT_PULSE_WIDTH 2500
+#define MAX_PULSE_WIDTH 2400
+#define DEFAULT_PULSE_WIDTH 1500
 #define FREQUENCY 50
 
 int degrees;
@@ -87,8 +88,6 @@ void setup() {
 
   pwm.begin();
   pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~60 Hz updates
-
-  
 }
 
 void loop() {
@@ -96,26 +95,27 @@ void loop() {
   // Config servos to 90 degrees for each leg.
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_A, 0, pulseWidth(config));  // A
+  pwm.setPWM(coxa_A, 0, pulseWidth(config));   // A
   pwm.setPWM(femur_A, 0, pulseWidth(config));  // A
   pwm.setPWM(tibia_A, 0, pulseWidth(config));  // A
 
-  pwm.setPWM(coxa_B, 0, pulseWidth(config));  // B
+  pwm.setPWM(coxa_B, 0, pulseWidth(config));   // B
   pwm.setPWM(femur_B, 0, pulseWidth(config));  // B
   pwm.setPWM(tibia_B, 0, pulseWidth(config));  // B
 
-  pwm.setPWM(coxa_C, 0, pulseWidth(config));  // C
+  pwm.setPWM(coxa_C, 0, pulseWidth(config));   // C
   pwm.setPWM(tibia_C, 0, pulseWidth(config));  // C
   pwm.setPWM(femur_C, 0, pulseWidth(config));  // C
 
-  pwm.setPWM(coxa_D, 0, pulseWidth(config));  // D
+  pwm.setPWM(coxa_D, 0, pulseWidth(config));   // D
   pwm.setPWM(femur_D, 0, pulseWidth(config));  // D
   pwm.setPWM(tibia_D, 0, pulseWidth(config));  // D
   delay(hold);
-
 }
 
+//--------------------------------------------------------------------
 // Pulsewidth declaration
+//--------------------------------------------------------------------
 
 int pulseWidth(int angle) {
   int pulse_wide, analog_value;

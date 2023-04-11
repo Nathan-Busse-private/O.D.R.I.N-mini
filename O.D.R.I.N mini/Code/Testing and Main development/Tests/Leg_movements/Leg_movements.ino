@@ -1,14 +1,14 @@
 
 
-/* Amp test
-  Project: O.D.R.I.N v2.0
-  Start date: 13 July 2022
+/* Leg_movements
+  Project: O.D.R.I.N mini
+  Start date: 3 April 2023
+  Last edited: 11 April 2023
   Info:
 
-  The imdividual leg test script will make O.D.R.I.N perform a set of six inches for each leg.
+  The imdividual leg test script will make O.D.R.I.N mini perform a set of six inches for each leg.
   One leg will raize for each set.
-  while tethered to a power supply which will display the total current O.D.R.I.N
-  requires for one leg to funcion properly.
+  
 
   Made by Nathan-Busse.
 */
@@ -74,7 +74,7 @@
 //Min and Max pulse values
 
 #define MIN_PULSE_WIDTH 500
-#define MAX_PULSE_WIDTH 2500
+#define MAX_PULSE_WIDTH 2400
 #define DEFAULT_PULSE_WIDTH 1500
 #define FREQUENCY 50
 
@@ -111,81 +111,83 @@ void loop() {
   // LOWER leg A
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_A, 0, pulseWidth(coxa_right));  // A
+  pwm.setPWM(coxa_A, 0, pulseWidth(coxa_right));
   delay(hold);
-  pwm.setPWM(femur_A, 0, pulseWidth(femur_down));  // A
+  pwm.setPWM(femur_A, 0, pulseWidth(femur_down));
   delay(hold);
-  pwm.setPWM(tibia_A, 0, pulseWidth(tibia_down));  // A
-  delay(hold);
-
-  //--------------------------------------------------------------------
-  // RISE leg B 
-  //--------------------------------------------------------------------
-
-  pwm.setPWM(coxa_B, 0, pulseWidth(coxa_left));  // A
-  delay(hold);
-  pwm.setPWM(femur_B, 0, pulseWidth(femur_up));  // A
-  delay(hold);
-  pwm.setPWM(tibia_B, 0, pulseWidth(tibia_up));  // A
+  pwm.setPWM(tibia_A, 0, pulseWidth(tibia_down));
   delay(hold);
 
   //--------------------------------------------------------------------
-  // LOWER leg B 
+  // RISE leg B
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_B, 0, pulseWidth(coxa_right));  // A
+  pwm.setPWM(coxa_B, 0, pulseWidth(coxa_left));
   delay(hold);
-  pwm.setPWM(femur_B, 0, pulseWidth(femur_down));  // A
+  pwm.setPWM(femur_B, 0, pulseWidth(femur_up));
   delay(hold);
-  pwm.setPWM(tibia_B, 0, pulseWidth(tibia_down));  // A
+  pwm.setPWM(tibia_B, 0, pulseWidth(tibia_up));
+  delay(hold);
+
+  //--------------------------------------------------------------------
+  // LOWER leg B
+  //--------------------------------------------------------------------
+
+  pwm.setPWM(coxa_B, 0, pulseWidth(coxa_right));
+  delay(hold);
+  pwm.setPWM(femur_B, 0, pulseWidth(femur_down));
+  delay(hold);
+  pwm.setPWM(tibia_B, 0, pulseWidth(tibia_down));
   delay(hold);
 
   //--------------------------------------------------------------------
   // RISE leg C
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_C, 0, pulseWidth(coxa_left));  // A
+  pwm.setPWM(coxa_C, 0, pulseWidth(coxa_left));
   delay(hold);
-  pwm.setPWM(femur_C, 0, pulseWidth(femur_up));  // A
+  pwm.setPWM(femur_C, 0, pulseWidth(femur_up));
   delay(hold);
-  pwm.setPWM(tibia_C, 0, pulseWidth(tibia_up));  // A
-  delay(hold);
-
-  //--------------------------------------------------------------------
-  // LOWER leg C 
-  //--------------------------------------------------------------------
-
-  pwm.setPWM(coxa_C, 0, pulseWidth(coxa_right));  // A
-  delay(hold);
-  pwm.setPWM(femur_C, 0, pulseWidth(femur_down));  // A
-  delay(hold);
-  pwm.setPWM(tibia_C, 0, pulseWidth(tibia_down));  // A
+  pwm.setPWM(tibia_C, 0, pulseWidth(tibia_up));
   delay(hold);
 
   //--------------------------------------------------------------------
-  // RISE leg D 
+  // LOWER leg C
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_D, 0, pulseWidth(coxa_left));  // A
+  pwm.setPWM(coxa_C, 0, pulseWidth(coxa_right));
   delay(hold);
-  pwm.setPWM(femur_D, 0, pulseWidth(femur_up));  // A
+  pwm.setPWM(femur_C, 0, pulseWidth(femur_down));
   delay(hold);
-  pwm.setPWM(tibia_D, 0, pulseWidth(tibia_up));  // A
+  pwm.setPWM(tibia_C, 0, pulseWidth(tibia_down));
   delay(hold);
 
   //--------------------------------------------------------------------
-  // LOWER leg D 
+  // RISE leg D
   //--------------------------------------------------------------------
 
-  pwm.setPWM(coxa_D, 0, pulseWidth(coxa_right));  // A
+  pwm.setPWM(coxa_D, 0, pulseWidth(coxa_left));
   delay(hold);
-  pwm.setPWM(tibia_D, 0, pulseWidth(tibia_down));  // A
+  pwm.setPWM(femur_D, 0, pulseWidth(femur_up));
   delay(hold);
-  pwm.setPWM(femur_D, 0, pulseWidth(femur_down));  // A
+  pwm.setPWM(tibia_D, 0, pulseWidth(tibia_up));
+  delay(hold);
+
+  //--------------------------------------------------------------------
+  // LOWER leg D
+  //--------------------------------------------------------------------
+
+  pwm.setPWM(coxa_D, 0, pulseWidth(coxa_right));
+  delay(hold);
+  pwm.setPWM(tibia_D, 0, pulseWidth(tibia_down));
+  delay(hold);
+  pwm.setPWM(femur_D, 0, pulseWidth(femur_down));
   delay(hold);
 }
 
+//--------------------------------------------------------------------
 // Pulsewidth declaration
+//--------------------------------------------------------------------
 
 int pulseWidth(int angle) {
   int pulse_wide, analog_value;

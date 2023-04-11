@@ -1,37 +1,83 @@
-/* -----------------------------------------------------------------------------
-  - Project: Remote control Crawling robot
-  - Author:  panerqiang@sunfounder.com
-  - Date:  2015/1/27
-   -----------------------------------------------------------------------------
-  - Overview
-  - This project was written for the Crawling robot desigened by Sunfounder.
-    This version of the robot has 4 legs, and each leg is driven by 3 servos.
-  This robot is driven by a Ardunio Nano Board with an expansion Board.
-  We recommend that you view the product documentation before using.
-  - Request
-  - This project requires some library files, which you can find in the head of
-    this file. Make sure you have installed these files.
-  - How to
-  - Before use,you must to adjust the robot,in order to make it more accurate.
-    - Adjustment operation
-    1.uncomment ADJUST, make and run
-    2.comment ADJUST, uncomment VERIFY
-    3.measure real sites and set to real_site[4][3], make and run
-    4.comment VERIFY, make and run
-  The document describes in detail how to operate.
-   ---------------------------------------------------------------------------*/
 
-// modified by Regis for spider project
+//-----------------------------------------------------------------------------
+// UNFINISHED!!!
+//-----------------------------------------------------------------------------
 
-/* Includes ------------------------------------------------------------------*/
-#include <Servo.h>    //to define and control servos
+*/
 #include <FlexiTimer2.h>//to set a timer to manage all servos
+
+
+#include <Adafruit_PWMServoDriver.h>
+#include <Wire.h>
+
+// Declaring pins
+
+// Channel definitions
+
+
+//pwm (Board 1)
+/*
+  -------
+  Leg A
+  -------
+*/
+#define coxa_A 0
+#define femur_A 1
+#define tibia_A 2
+
+/*
+  -------
+  Leg B
+  -------
+*/
+#define coxa_B 4
+#define femur_B 5
+#define tibia_B 6
+
+/*
+  -------
+  Leg C
+  -------
+*/
+#define coxa_C 8
+#define femur_C 9
+#define tibia_C 10
+
+
+//pwm (Board 2)
+/*
+  -------
+  Leg D
+  -------
+*/
+#define coxa_D 12
+#define femur_D 13
+#define tibia_D 14
+
+// servo config
+
+#define config 90
+
+//Min and Max pulse values
+
+#define MIN_PULSE_WIDTH 500
+#define MAX_PULSE_WIDTH 2500
+#define DEFAULT_PULSE_WIDTH 2500
+#define FREQUENCY 50
+
+int degrees;
+
+// Millis declarations
+#define hold 500
+#define pause 5000
+
+// Address definitions for servo controllers
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
+
 
 /* Servos --------------------------------------------------------------------*/
 //define 12 servos for 4 legs
-Servo servo[4][3];
-//define servos' ports
-const int servo_pin[4][3] = { {2, 3, 4}, {5, 6, 7}, {8, 9, 10}, {11, 12, 13} };
+
 /* Size of the robot ---------------------------------------------------------*/
 const float length_a = 55;
 const float length_b = 77.5;
@@ -95,35 +141,14 @@ void setup()
   FlexiTimer2::start();
   Serial.println("Servo service started");
   //initialize servos
-  servo_attach();
+ 
+  pwm.begin();
+  pwm.setPWMFreq(FREQUENCY);  // Analog servos run at ~60 Hz updates
+
   Serial.println("Servos initialized");
   Serial.println("Robot initialization Complete");
 }
 
-
-void servo_attach(void)
-{
-  for (int i = 0; i < 4; i++)
-  {
-    for (int j = 0; j < 3; j++)
-    {
-      servo[i][j].attach(servo_pin[i][j]);
-      delay(100);
-    }
-  }
-}
-
-void servo_detach(void)
-{
-  for (int i = 0; i < 4; i++)
-  {
-    for (int j = 0; j < 3; j++)
-    {
-      servo[i][j].detach();
-      delay(100);
-    }
-  }
-}
 /*
   - loop function
    ---------------------------------------------------------------------------*/
@@ -723,7 +748,18 @@ void polar_to_servo(int leg, float alpha, float beta, float gamma)
     gamma += 90;
   }
 
-  servo[leg][0].write(alpha);
-  servo[leg][1].write(beta);
-  servo[leg][2].write(gamma);
+  pwm.setPWM{[leg][0], pulseWidth(alpha)};
+  pwm.setPWM{[leg][1], pulseWidth(beta)};
+  pwm.setPWM{[leg][2], pulseWidth(gamma)};
+}
+
+
+
+
+int pulseWidth(int angle) {
+  int pulse_wide, analog_value;
+  pulse_wide = map(angle, 0, 180, MIN_PULSE_WIDTH, MAX_PULSE_WIDTH);
+  analog_value = int(float(pulse_wide) / 1000000 * FREQUENCY * 4096);
+  Serial.println(analog_value);
+  return analog_value;
 }
